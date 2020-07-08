@@ -1,17 +1,18 @@
 import os
 import datetime
-import sqlite3
+import sqlite3 as sql
 # Flask and Helpers
 from flask import g, Flask, request, session, render_template, redirect
 from flask_session import Session
-from helpers import get_db, query_db, login_required
+from helpers import get_db, query_db, add_db, login_required
 from tempfile import mkdtemp
 # Security Related
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 # Configure Application
 app = Flask(__name__)
-DATABASE = 'quiz.db'
+
+
 # Ensure Template are auto-reloaded
 app.config["TEMPLATE_AUTO_RELOAD"] = True
 
@@ -29,11 +30,15 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+
+# SETUP DATABASE
+DATABASE = 'quiz.db'
+
 #------------------------------------------------------------------------------------------------DEFAULT ROUTE 
 @app.route('/')
 @login_required
 def index():
-    index = session["user_id"]
+    
     return render_template("index.html")
 
 
@@ -79,14 +84,13 @@ def register():
     if password != confirmation:
         return render_template("login.html", r=4)#----------------------------------------------------------------r=4 Passwords don't match
 
-    query_db("INSERT INTO users(username, hash, email) VALUES(?, ?, ?)", [username, hashed, email], one=False)
-
-    log = query_db("SELECT id FROM users WHERE username=?",[username], one=True)
-    print(log['id'])
+    add_db("INSERT INTO users(username, hash, email) VALUES(?, ?, ?)", (username, hashed, email))
+                 
+    log = query_db("SELECT * FROM users WHERE username=?", [username], one=True)
     session["user_id"] = log[0]
     return redirect("/")
 
-# Close the database
+# Close the database conncection
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)

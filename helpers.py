@@ -1,7 +1,7 @@
 import os
 import requests
 import urllib.parse
-import sqlite3
+import sqlite3 
 
 from flask import redirect, render_template, request, session, g, Flask
 from functools import wraps
@@ -34,3 +34,10 @@ def query_db(query, args=(), one=False):
     rv = cur.fetchall()
     cur.close()
     return (rv[0] if rv else None) if one else rv
+
+def add_db(query, args=()):
+    with sqlite3.connect(DATABASE) as db:
+        cur = db.cursor()
+        cur.execute(query, args)
+        db.commit()         
+    db.close()
