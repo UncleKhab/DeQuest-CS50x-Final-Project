@@ -1,0 +1,30 @@
+#page-container {
+    position: relative;
+    min-height: 100vh;
+  }
+  
+  #content-wrap {
+    padding-bottom: 2.5rem;    /* Footer height */
+  }
+  
+  #footer {
+    background-color:#343a40;
+    color: #fffcd9;
+    text-align:center;
+    padding-top:8px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2.5rem;            /* Footer height */
+  }
+
+  .custom_link {
+      color: #fffcd9;
+      text-decoration:none;
+  }
+
+  .custom_link:hover {
+      color: #fffdec;
+      text-decoration:none;
+      
+  }
