@@ -53,7 +53,10 @@ body
       text-decoration:none;
       
 }
-
+.custom-alert{
+  color:red;
+  text-align:center;
+}
 .custom-btn
 {
   border-color: #fffcd9;
@@ -86,6 +89,8 @@ body
   flex:1;
   
 }
+
+
 
 @media only screen and (min-width: 900px) {
   .button-container{

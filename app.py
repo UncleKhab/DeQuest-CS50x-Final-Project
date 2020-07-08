@@ -89,6 +89,11 @@ def register():
     log = query_db("SELECT * FROM users WHERE username=?", [username], one=True)
     session["user_id"] = log[0]
     return redirect("/")
+#----------------------------------------------------------------------------------------------------LOGOUT ROUTE
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
 
 # Close the database conncection
 @app.teardown_appcontext
