@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- FONT STYLE -->
+    <link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet">
+    <!-- BOOTSTRAP CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- MY CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- BOOT STRAP SCRIPTS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- ICON -->
+    <link rel="icon" href="/static/favicon.ico">
+
+    <title>DeQuest</title>
+</head>
+<body>
+    <h1 class="login-title">DeQuest</h1>
+    <hr class="hr-form">
+    <div id="form-parent">
+        <div class="button-container">
+            <!-- LOGIN BUTTON COLLAPSE -->
+            <div class="button-row">
+                <button class="custom-btn btn btn-outline-warning btn-lg " type="button" data-toggle="collapse" data-target="#collapseLogin" aria-expanded="false" aria-controls="collapseLogin">
+                    Login
+                </button>
+                    <div class="collapse" id="collapseLogin">
+                        <div class="container custom-containter">
+                            
+                            <form name="loginForm" action="/register" method="post">
+                                <div class="form-group">
+                                    <input type="text" name="username" class="form-control" placeholder="username" onKeyUp="checkform('loginForm','loginButton')">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" name="password" placeholder="password" onKeyUp="checkform('loginForm','loginButton')">
+                                </div>
+                        
+                                  <button id="loginButton" type="submit" class="btn btn-primary btn-block" disabled="disabled" value="submit">Login</button>
+                                </form>
+                            </form>
+                        </div>
+                    </div>
+            </div>
+            
+            <!-- REGISTER BUTTON COLLAPSE -->
+            <div class="button-row">
+                <button class="custom-btn btn btn-outline-warning btn-lg " type="button" data-toggle="collapse" data-target="#collapseRegister" aria-expanded="false" aria-controls="collapseRegister">
+                    Register
+                </button>
+                    <div class="collapse" id="collapseRegister">
+                        <div class="container custom-containter">
+                        
+                        <form name="registerForm" action="/register" method="post">
+                            <div class="form-group">
+                                <input type="text" name="username" class="form-control" placeholder="username" onKeyUp="checkform('registerForm','registerButton')">
+                            </div>
+                            
+                            <div class="form-group">
+                                <input type="email" name="email" class="form-control" placeholder="email" onKeyUp="checkform('registerForm','registerButton')">
+                            </div>
+                
+                            <div class="form-group">
+                                <input type="password" class="form-control" name="password" placeholder="password" onKeyUp="checkform('registerForm','registerButton')">
+                            </div>
+                    
+                            <div class="form-group">
+                                <input type="password" class="form-control" name="confirmation" placeholder="confirm password" onKeyUp="checkform('registerForm','registerButton')">
+                            </div>
+                
+                            <button id="registerButton" type="submit" class="btn btn-primary btn-block" disabled="disabled" value="submit">Register</button>
+                            </form>
+                        </form>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <hr class="hr-form">
+    
+    <footer id="log-footer">
+        DeQuest&trade; | Created By Stefan CJK | &copy; 2020
+    </footer>
+    <script type="text/javascript" src="/static/app.js"></script>
+</body>
+</html>
