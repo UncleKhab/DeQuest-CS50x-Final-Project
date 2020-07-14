@@ -95,6 +95,29 @@ def logout():
     session.clear()
     return redirect("/")
 
+#----------------------------------------------------------------------------------------------------QUESTIONS ROUTE
+
+@app.route("/questions", methods=["GET", "POST"])
+@login_required
+def questions():
+    user_id = session["user_id"]
+    if request.method == "GET":
+        return render_template("questions.html")
+    else:
+        question = request.form.get("question")
+        checked = request.form.get("check") 
+        answers = request.form.getlist("answer")
+        difficulty = request.form.get("difficulty")
+        a0 = answers[0]
+        a1 = answers[1]
+        a2 = answers[2]
+        a3 = answers[3]
+        add_db("INSERT INTO questions(user_id, question, correct_answer, difficulty) VALUES(?,?,?,?)", (user_id, question, checked, difficulty))
+        log = query_db("SELECT id FROM questions WHERE question=?", [question], one=True)
+        question_id = log[0]
+        add_db("INSERT INTO answers(question_id, a0, a1, a2, a3) VALUES (?,?,?,?,?)", (question_id, a0, a1, a2, a3))
+        return render_template("index.html")
+
 # Close the database conncection
 @app.teardown_appcontext
 def close_connection(exception):
