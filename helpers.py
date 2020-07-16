@@ -41,3 +41,13 @@ def add_db(query, args=()):
         cur.execute(query, args)
         db.commit()         
     db.close()
+
+def get_q(user_id, quiz_id):
+    q_list = []
+    questions = query_db("SELECT question FROM questions WHERE user_id=? AND quiz_id=?", [user_id, quiz_id])
+    for q in questions:
+        q_list.append(q[0])
+    return q_list
+
+
+    

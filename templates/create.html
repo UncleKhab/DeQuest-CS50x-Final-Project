@@ -1,0 +1,233 @@
+{% extends 'layout.html' %}
+
+
+{% block main %}
+    <hr>
+    {% if r == 0 %}
+        <h2 class="form-title">Create a Quiz</h2>
+        <div class="my-container">
+            <form name="createQuiz" action="/create" method="post">
+                <div class="form-group">
+                    <label for="quizTitle">Title</label>
+                    <input name="title" type="text" class="form-control" id="quizTitle" placeholder="CS50 Data Structures">
+                </div>
+                <div class="form-group">
+                    <label for="quizDescription">Description</label>
+                    <input name="description" type="text" class="form-control" id="quizDescription"
+                        placeholder="Small Quiz About Data Structures">
+                </div>
+                <div class="form-group">
+                    <label for="quizSubjects">Subjects</label>
+                    <input name="subjects" type="text" class="form-control" id="quizSubjects"
+                        placeholder="CS50, Computer Science, Data Structures ...">
+                </div>
+                <button id="quizSubmit" type="submit" class="btn btn-primary btn-block" value="submit">Create</button>
+            </form>
+        
+        </div>
+        <hr>
+    {% elif r == 1 %}
+        <hr>
+        <div class="my-container">
+            <h2 name="title" class="form-title">{{ quiz['title'] }}</h2>
+            <hr>
+            <p class="quiz-description">{{ quiz['description'] }}</p>
+            <hr>
+            <em class="quiz-subjects">{{ quiz['subjects'] }}</em>
+            <hr>
+        </div>
+        <div class="button-container">
+            <div class="button-row">
+                <button class="custom-btn btn btn-outline-warning btn-lg " type="button" data-toggle="collapse"
+                    data-target="#collapseLogin" aria-expanded="false" aria-controls="collapseLogin">
+                    Add a Question
+                </button>
+                <div class="collapse" id="collapseLogin">
+                    <div class="container custom-containter">
+
+                        <form name="questionForm" action="/add" method="post">
+                            <h2>Question</h2>
+                            <div class="form-group">
+                                <textarea name="question" class="form-control" id="questionArea" rows="3"></textarea>
+                            </div>
+                            <hr>
+                            <h2>Answers</h2>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input name="check" value="0" type="checkbox"
+                                            aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <input name="answer" type="text" class="form-control"
+                                    aria-label="Text input with checkbox">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input name="check" value="1" type="checkbox"
+                                            aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <input name="answer" type="text" class="form-control"
+                                    aria-label="Text input with checkbox">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input name="check" value="2" type="checkbox"
+                                            aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <input name="answer" type="text" class="form-control"
+                                    aria-label="Text input with checkbox">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input name="check" value="3" type="checkbox"
+                                            aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <input name="answer" type="text" class="form-control"
+                                    aria-label="Text input with checkbox">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="difficulty">Difficulty</label>
+                                <select name="difficulty" class="form-control" id="difficulty">
+                                    <option>Novice</option>
+                                    <option>Beginner</option>
+                                    <option>Competent</option>
+                                    <option>Proeficient</option>
+                                    <option>Expert</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label for="qTitle">Quiz Name</label>
+                                <select name="qTitle" class="form-control" id="qTitle">
+                                    <option>{{ quiz['title'] }}</option>
+                                </select>
+                            </div>
+                            <button id="submitQuestion" type="submit" class="btn btn-primary btn-block"
+                                value="submit">Add</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% elif r == 2 %}
+        <hr>
+            <div class="my-container">
+                <h2 name="title" class="form-title">{{ quiz['title'] }}</h2>
+                <hr>
+                <p class="quiz-description">{{ quiz['description'] }}</p>
+                <hr>
+                <em class="quiz-subjects">subjects: {{ quiz['subjects'] }}</em>
+                <hr>
+            </div>
+            <div class="button-container">
+                <div class="button-row">
+                    <button class="custom-btn btn btn-outline-warning btn-lg " type="button" data-toggle="collapse"
+                        data-target="#collapseLogin" aria-expanded="false" aria-controls="collapseLogin">
+                        Add a Question
+                    </button>
+                    <div class="collapse" id="collapseLogin">
+                        <div class="container custom-containter">
+
+                            <form name="questionForm" action="/add" method="post">
+                                <h2>Question</h2>
+                                <div class="form-group">
+                                    <textarea name="question" class="form-control" id="questionArea" rows="3"></textarea>
+                                </div>
+                                <hr>
+                                <h2>Answers</h2>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input name="check" value="0" type="checkbox"
+                                                aria-label="Checkbox for following text input">
+                                        </div>
+                                    </div>
+                                    <input name="answer" type="text" class="form-control"
+                                        aria-label="Text input with checkbox">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input name="check" value="1" type="checkbox"
+                                                aria-label="Checkbox for following text input">
+                                        </div>
+                                    </div>
+                                    <input name="answer" type="text" class="form-control"
+                                        aria-label="Text input with checkbox">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input name="check" value="2" type="checkbox"
+                                                aria-label="Checkbox for following text input">
+                                        </div>
+                                    </div>
+                                    <input name="answer" type="text" class="form-control"
+                                        aria-label="Text input with checkbox">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input name="check" value="3" type="checkbox"
+                                                aria-label="Checkbox for following text input">
+                                        </div>
+                                    </div>
+                                    <input name="answer" type="text" class="form-control"
+                                        aria-label="Text input with checkbox">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="difficulty">Difficulty</label>
+                                    <select name="difficulty" class="form-control" id="difficulty">
+                                        <option>Novice</option>
+                                        <option>Beginner</option>
+                                        <option>Competent</option>
+                                        <option>Proeficient</option>
+                                        <option>Expert</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="display:none">
+                                    <label for="qTitle">Quiz Name</label>
+                                    <select name="qTitle" class="form-control" id="qTitle">
+                                        <option>{{ quiz['title'] }}</option>
+                                    </select>
+                                </div>
+                                <button id="submitQuestion" type="submit" class="btn btn-primary btn-block"
+                                    value="submit">Add</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-container">
+                <h2 class="form-title">
+                  Questions
+                </h2>
+                {% for q in q_list %}
+                    <form action="/delete" class="question-item" method="post">
+                        <div class="input-group mb-3">
+                            <select name="delQuestion" class="form-control" id="qTitle" style="display:none">
+                                <option>{{ q }}</option>
+                            </select>
+                            <select name="qTitle" class="form-control" id="qTitle" style="display:none">
+                                <option>{{ quiz['title'] }}</option>
+                            </select>
+                            <p class="form-control">{{ q }}</p>
+                            <div class="input-group-append" id="button-addon3">
+                                <button class="btn btn-outline-secondary" type="submit">Remove</button>
+                            </div>
+                        </div>
+                    </form>
+                {% endfor %}
+              </div>
+    {% endif %}
+{% endblock %}

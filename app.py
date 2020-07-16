@@ -4,7 +4,7 @@ import sqlite3 as sql
 # Flask and Helpers
 from flask import g, Flask, request, session, render_template, redirect
 from flask_session import Session
-from helpers import get_db, query_db, add_db, login_required
+from helpers import get_db, query_db, add_db, login_required, get_q
 from tempfile import mkdtemp
 # Security Related
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
@@ -94,31 +94,68 @@ def register():
 def logout():
     session.clear()
     return redirect("/")
-
-#----------------------------------------------------------------------------------------------------QUESTIONS ROUTE
-
-@app.route("/questions", methods=["GET", "POST"])
+#----------------------------------------------------------------------------------------------------QUIZ ROUTE
+@app.route("/create", methods=["GET", "POST"])
 @login_required
-def questions():
+def create():
     user_id = session["user_id"]
-    if request.method == "GET":
-        return render_template("questions.html")
-    else:
-        question = request.form.get("question")
-        checked = request.form.get("check") 
-        answers = request.form.getlist("answer")
-        difficulty = request.form.get("difficulty")
-        a0 = answers[0]
-        a1 = answers[1]
-        a2 = answers[2]
-        a3 = answers[3]
-        add_db("INSERT INTO questions(user_id, question, correct_answer, difficulty) VALUES(?,?,?,?)", (user_id, question, checked, difficulty))
-        log = query_db("SELECT id FROM questions WHERE question=?", [question], one=True)
-        question_id = log[0]
-        add_db("INSERT INTO answers(question_id, a0, a1, a2, a3) VALUES (?,?,?,?,?)", (question_id, a0, a1, a2, a3))
-        return render_template("index.html")
 
-# Close the database conncection
+    if request.method == "GET":
+        return render_template("create.html", r=0)
+    else:
+        title = request.form.get("title")
+        description = request.form.get("description")
+        subjects = request.form.get("subjects")
+        add_db("INSERT INTO quiz(title, description, subjects, user_id) VALUES (?,?,?,?)", (title, description, subjects, user_id))
+        quiz = query_db("SELECT * FROM quiz WHERE title=? AND user_id=?",[title, user_id], one=True)
+        
+        return render_template("create.html", quiz=quiz, r=1)
+
+#----------------------------------------------------------------------------------------------------ADD QUESTIONS ROUTE
+
+@app.route("/add", methods=["POST"])
+@login_required
+def add():
+    user_id = session["user_id"]
+    question = request.form.get("question")
+    checked = request.form.get("check") 
+    answers = request.form.getlist("answer")
+    difficulty = request.form.get("difficulty")
+    quiz_title = request.form.get("qTitle")
+    a0 = answers[0]
+    a1 = answers[1]
+    a2 = answers[2]
+    a3 = answers[3]
+    
+    quiz = query_db("SELECT * FROM quiz WHERE title=? AND user_id=?",[quiz_title, user_id], one=True)
+    
+    quiz_id = quiz[0]
+    
+    add_db("INSERT INTO questions(user_id, question, correct_answer, difficulty, quiz_id) VALUES(?,?,?,?,?)",
+        (user_id, question, checked, difficulty, quiz_id))
+    
+    log = query_db("SELECT id FROM questions WHERE question=?", [question], one=True)
+    question_id = log[0]
+    
+    add_db("INSERT INTO answers(question_id, a0, a1, a2, a3) VALUES (?,?,?,?,?)", (question_id, a0, a1, a2, a3))
+    
+    q_list = get_q(user_id, quiz_id)
+    return render_template("create.html",q_list=q_list, quiz=quiz, r=2)
+#----------------------------------------------------------------------------------------------------DELETE QUESTION ROUTE
+@app.route("/delete", methods=["POST"])
+@login_required
+def delete():
+    user_id = session["user_id"]
+    question = request.form.get("delQuestion")
+    quiz_title = request.form.get("qTitle")
+
+    add_db("DELETE FROM questions WHERE user_id=? AND question=?",(user_id, question))
+    quiz = query_db("SELECT * FROM quiz WHERE title=? AND user_id=?",[quiz_title, user_id], one=True)
+    quiz_id = quiz[0]
+    q_list = get_q(user_id, quiz_id)
+    return render_template("create.html",q_list=q_list, quiz=quiz, r=2)
+    
+# Close the database connection
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)

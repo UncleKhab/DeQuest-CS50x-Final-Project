@@ -135,6 +135,12 @@ body
   margin: 20px 0;
 }
 
+.my-container
+{
+  width: 80%;
+  margin:auto;
+}
+
 @media only screen and (min-width: 900px) {
   .button-container{
     flex-direction:row;

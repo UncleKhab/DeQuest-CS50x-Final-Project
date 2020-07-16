@@ -2,56 +2,85 @@
 
 
 {% block main %}
-<form name="questionForm" action="/questions" method="post">
-    <h2>Question</h2>
-    <div class="form-group">
-        <textarea name="question" class="form-control" id="questionArea" rows="3"></textarea>
-    </div>
-    <hr>
-    <h2>Answers</h2>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <div class="input-group-text">
-            <input name="check" value="0" type="checkbox" aria-label="Checkbox for following text input">
-          </div>
-        </div>
-        <input name="answer" type="text" class="form-control" aria-label="Text input with checkbox">
-    </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <div class="input-group-text">
-            <input name="check" value="1" type="checkbox" aria-label="Checkbox for following text input">
-          </div>
-        </div>
-        <input name="answer" type="text" class="form-control" aria-label="Text input with checkbox">
-    </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <div class="input-group-text">
-            <input name="check" value="2" type="checkbox" aria-label="Checkbox for following text input">
-          </div>
-        </div>
-        <input name="answer" type="text" class="form-control" aria-label="Text input with checkbox">
-    </div>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <div class="input-group-text">
-            <input name="check" value="3" type="checkbox" aria-label="Checkbox for following text input">
-          </div>
-        </div>
-        <input name="answer" type="text" class="form-control" aria-label="Text input with checkbox">
-    </div>
+<hr>
+<div class="button-container">
+  <div class="button-row">
+    <button class="custom-btn btn btn-outline-warning btn-lg " type="button" data-toggle="collapse"
+      data-target="#collapseLogin" aria-expanded="false" aria-controls="collapseLogin">
+      Add a Question
+    </button>
+    <div class="collapse" id="collapseLogin">
+      <div class="container custom-containter">
 
-    <div class="form-group">
-      <label for="difficulty">Difficulty</label>
-      <select name="difficulty" class="form-control" id="difficulty">
-        <option>Novice</option>
-        <option>Beginner</option>
-        <option>Competent</option>
-        <option>Proeficient</option>
-        <option>Expert</option>
-      </select>
+        <form name="questionForm" action="/questions" method="post">
+          <h2>Question</h2>
+          <div class="form-group">
+            <textarea name="question" class="form-control" id="questionArea" rows="3"></textarea>
+          </div>
+          <hr>
+          <h2>Answers</h2>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <input name="check" value="0" type="checkbox" aria-label="Checkbox for following text input">
+              </div>
+            </div>
+            <input name="answer" type="text" class="form-control" aria-label="Text input with checkbox">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <input name="check" value="1" type="checkbox" aria-label="Checkbox for following text input">
+              </div>
+            </div>
+            <input name="answer" type="text" class="form-control" aria-label="Text input with checkbox">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <input name="check" value="2" type="checkbox" aria-label="Checkbox for following text input">
+              </div>
+            </div>
+            <input name="answer" type="text" class="form-control" aria-label="Text input with checkbox">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <input name="check" value="3" type="checkbox" aria-label="Checkbox for following text input">
+              </div>
+            </div>
+            <input name="answer" type="text" class="form-control" aria-label="Text input with checkbox">
+          </div>
+
+          <div class="form-group">
+            <label for="difficulty">Difficulty</label>
+            <select name="difficulty" class="form-control" id="difficulty">
+              <option>Novice</option>
+              <option>Beginner</option>
+              <option>Competent</option>
+              <option>Proeficient</option>
+              <option>Expert</option>
+            </select>
+          </div>
+          <button id="submitQuestion" type="submit" class="btn btn-primary btn-block" value="submit">Submit</button>
+        </form>
+
+      </div>
+    </div>
   </div>
-    <button id="submitQuestion" type="submit" class="btn btn-primary btn-block" value="submit" >Submit</button>
-</form>
+</div>
+<hr>
+<div class="question-list">
+  <h2 class="form-title">
+    Questions
+  </h2>
+  {% for q in q_list %}
+    <div class="list-item">
+      {{ q }}
+    </div>
+  {% endfor %}
+</div>
+
+<script>
+</script>
 {% endblock %}
