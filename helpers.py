@@ -49,5 +49,11 @@ def get_q(user_id, quiz_id):
         q_list.append(q[0])
     return q_list
 
+def get_dict(user_id, quiz_id):
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    c.execute
+
 
     

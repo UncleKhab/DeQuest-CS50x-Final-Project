@@ -94,7 +94,7 @@ def register():
 def logout():
     session.clear()
     return redirect("/")
-#----------------------------------------------------------------------------------------------------QUIZ ROUTE
+#----------------------------------------------------------------------------------------------------CREATE ROUTE
 @app.route("/create", methods=["GET", "POST"])
 @login_required
 def create():
@@ -154,7 +154,27 @@ def delete():
     quiz_id = quiz[0]
     q_list = get_q(user_id, quiz_id)
     return render_template("create.html",q_list=q_list, quiz=quiz, r=2)
-    
+
+#----------------------------------------------------------------------------------------------------SHOW ALL QUIZZEZ
+@app.route("/quiz")
+@login_required
+def quiz():
+    user_id = session["user_id"]
+    quizList = query_db("SELECT * FROM quiz")
+    return render_template("quiz.html", quizList=quizList)
+
+#----------------------------------------------------------------------------------------------------TAKE QUIZ
+@app.route("/takeQuiz", methods=["POST"])
+@login_required
+def takeQuiz():
+    user_id = session["user_id"]
+    quiz_id = request.form.get("quizId")
+    quiz = query_db("SELECT * FROM quiz WHERE id=?",[quiz_id], one=True)
+    questions = get_q(user_id, quiz_id)
+    q_list = [dict(row) for row in questions]
+    print(q_list)
+    return render_template("takeQuiz.html", quiz=quiz, questions=questions)
+
 # Close the database connection
 @app.teardown_appcontext
 def close_connection(exception):

@@ -35,15 +35,15 @@
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link" href="/monologue">MonoLogue</a>
+                    <a class="nav-link" href="/monologue">Quiz</a>
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link" href="/dialogue">DiaLogue</a>
+                    <a class="nav-link" href="/dialogue">Take a Quiz</a>
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link" href="/trending">Trending</a>
+                    <a class="nav-link" href="/trending">Top Quizes</a>
                 </li>
                 
                 
@@ -60,109 +60,17 @@
             <div id="content-wrap">
         <!-- content  -->
         <hr>
-            <div class="my-container">
-                <h2 name="title" class="form-title">{{ quiz['title'] }}</h2>
-                <hr>
-                <p class="quiz-description">{{ quiz['description'] }}</p>
-                <hr>
-                <em class="quiz-subjects">subjects: {{ quiz['subjects'] }}</em>
-                <hr>
-            </div>
-            <div class="button-container">
-                <div class="button-row">
-                    <button class="custom-btn btn btn-outline-warning btn-lg " type="button" data-toggle="collapse"
-                        data-target="#collapseLogin" aria-expanded="false" aria-controls="collapseLogin">
-                        Add a Question
-                    </button>
-                    <div class="collapse" id="collapseLogin">
-                        <div class="container custom-containter">
-
-                            <form name="questionForm" action="/questions" method="post">
-                                <h2>Question</h2>
-                                <div class="form-group">
-                                    <textarea name="question" class="form-control" id="questionArea" rows="3"></textarea>
-                                </div>
-                                <hr>
-                                <h2>Answers</h2>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <input name="check" value="0" type="checkbox"
-                                                aria-label="Checkbox for following text input">
-                                        </div>
-                                    </div>
-                                    <input name="answer" type="text" class="form-control"
-                                        aria-label="Text input with checkbox">
-                                </div>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <input name="check" value="1" type="checkbox"
-                                                aria-label="Checkbox for following text input">
-                                        </div>
-                                    </div>
-                                    <input name="answer" type="text" class="form-control"
-                                        aria-label="Text input with checkbox">
-                                </div>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <input name="check" value="2" type="checkbox"
-                                                aria-label="Checkbox for following text input">
-                                        </div>
-                                    </div>
-                                    <input name="answer" type="text" class="form-control"
-                                        aria-label="Text input with checkbox">
-                                </div>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <input name="check" value="3" type="checkbox"
-                                                aria-label="Checkbox for following text input">
-                                        </div>
-                                    </div>
-                                    <input name="answer" type="text" class="form-control"
-                                        aria-label="Text input with checkbox">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="difficulty">Difficulty</label>
-                                    <select name="difficulty" class="form-control" id="difficulty">
-                                        <option>Novice</option>
-                                        <option>Beginner</option>
-                                        <option>Competent</option>
-                                        <option>Proeficient</option>
-                                        <option>Expert</option>
-                                    </select>
-                                </div>
-                                <div class="form-group" style="display:none">
-                                    <label for="qTitle">Quiz Name</label>
-                                    <select name="qTitle" class="form-control" id="qTitle">
-                                        <option>{{ quiz['title'] }}</option>
-                                    </select>
-                                </div>
-                                <button id="submitQuestion" type="submit" class="btn btn-primary btn-block"
-                                    value="submit">Add</button>
-                            </form>
-
-                        </div>
+        <h2 class="form-title">Quiz Title</h2>
+        <hr>
+        <form action="/submitQuiz">
+            <ol>
+                <li>
+                    <div class="input-group mb-3">
+                        <p class="form-control">{{ q }}</p>
                     </div>
-                </div>
-            </div>
-            <div class="my-container">
-                <h2 class="form-title">
-                  Questions
-                </h2>
-                
-                <div class="input-group mb-3">
-                    <p class="form-control"></p>
-                    <div class="input-group-append" id="button-addon3">
-                      <button class="btn btn-outline-secondary" type="button">Remove</button>
-                    </div>
-                </div>
-                
-              </div>
-       
+                </li>
+            </ol>
+        </form>
         <!-- content  -->
             </div>
         <footer id="footer">DeQuest | Created By: <a class="custom_link" href="#">Stefan Cjk</a> &copy;2020</footer>

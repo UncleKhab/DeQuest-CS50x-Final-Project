@@ -7,7 +7,7 @@
 body
 {
   background-color:#343a40;
-  color:#fffcd9;
+  color: #fffcd9;
 }
 
 .hr-form
@@ -139,9 +139,20 @@ body
 {
   width: 80%;
   margin:auto;
+  margin-top:20px;
+}
+
+.grid-container 
+{
+    display:grid;
+    grid-column-gap: 5%;
+    grid-template-columns: 45% 45%;
+    row-gap: 15px;
+ 
 }
 
 @media only screen and (min-width: 900px) {
+  
   .button-container{
     flex-direction:row;
   }
@@ -149,11 +160,19 @@ body
   .button-row{
     margin:10px 10px;
   }
+  .grid-container
+  {
+    grid-template-columns: 28% 28% 28%;
+  }
 }
 
 @media only screen and (min-width: 1200px)
 {
   .button-container{
     width:50%;
+  }
+  .grid-container
+  {
+    grid-template-columns: 20% 20% 20% 20%;
   }
 }
