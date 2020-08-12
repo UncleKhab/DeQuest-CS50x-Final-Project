@@ -59,18 +59,30 @@
     <div id="page-container">
             <div id="content-wrap">
         <!-- content  -->
-        <hr>
-        <h2 class="form-title">Quiz Title</h2>
-        <hr>
-        <form action="/submitQuiz">
-            <ol>
-                <li>
-                    <div class="input-group mb-3">
-                        <p class="form-control">{{ q }}</p>
-                    </div>
-                </li>
-            </ol>
-        </form>
+        <div class="my-container">
+            <hr>
+            <h1 class="form-title">Quiz Title</h1>
+            <hr>
+            <h2 class="quiz-description">Some Word for a description that are likely to be overseen</h2>
+            <hr>
+            <div class="quiz-tags">
+                <a href="#" class="quiz-tags-link">Tag 1</a>
+                
+                <a href="#" class="quiz-tags-link">Tag 1</a>
+                
+                <a href="#" class="quiz-tags-link">Tag 1</a>
+                
+                <a href="#" class="quiz-tags-link">Tag 1</a>
+            </div>
+            <hr>
+        </div>
+        <div class="my-container">
+            <form name="submitQuiz" action="/submitQuiz" method="post">
+            </form>
+        </div>
+        
+
+
         <!-- content  -->
             </div>
         <footer id="footer">DeQuest | Created By: <a class="custom_link" href="#">Stefan Cjk</a> &copy;2020</footer>

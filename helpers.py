@@ -53,7 +53,9 @@ def get_dict(user_id, quiz_id):
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     c = conn.cursor()
-    c.execute
+    c.execute("SELECT * FROM questions JOIN answers ON answers.question_id = questions.id WHERE questions.quiz_id=? ",[quiz_id])
+    result = c.fetchall()
+    return result
 
 
     

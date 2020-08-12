@@ -4,7 +4,7 @@ import sqlite3 as sql
 # Flask and Helpers
 from flask import g, Flask, request, session, render_template, redirect
 from flask_session import Session
-from helpers import get_db, query_db, add_db, login_required, get_q
+from helpers import get_db, query_db, add_db, login_required, get_q, get_dict
 from tempfile import mkdtemp
 # Security Related
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
@@ -169,12 +169,43 @@ def quiz():
 def takeQuiz():
     user_id = session["user_id"]
     quiz_id = request.form.get("quizId")
-    quiz = query_db("SELECT * FROM quiz WHERE id=?",[quiz_id], one=True)
-    questions = get_q(user_id, quiz_id)
-    q_list = [dict(row) for row in questions]
-    print(q_list)
-    return render_template("takeQuiz.html", quiz=quiz, questions=questions)
 
+    quiz = query_db("SELECT * FROM quiz WHERE id=?",[quiz_id], one=True)
+    questions = get_dict(user_id, quiz_id)
+    tags = quiz[3].split()
+    q_list = [dict(row) for row in questions]
+    
+    return render_template("takeQuiz.html", quiz=quiz,tags=tags, questions=questions, q_list=q_list)
+
+#----------------------------------------------------------------------------------------------------SUBMIT QUIZ
+@app.route("/submitQuiz", methods=["POST"])
+@login_required
+def submitQuiz():
+    user_id = session["user_id"]
+    quiz_id = request.form.get("quizId")
+    
+    #GETTING THE USER ANSWERS 
+    userAnswers = request.form.getlist("answer")
+    userAnswers = list(map(int, userAnswers))
+    #GETTING THE ANSWERS TO QUESTIONS
+    questions = get_dict(user_id, quiz_id)
+    q_list = [dict(row) for row in questions]
+    answers = []
+    for row in q_list:
+        answers.append(row['correct_answer'])
+    
+    #COUNTING THE CORRECT ANSWERS
+    answersCount = len(answers)
+    count = 0
+    for i in range(answersCount):
+        if answers[i] == userAnswers[i]:
+            count += 1
+    
+    print(count)
+    print(answersCount)
+    print(userAnswers)
+    print(answers)
+    return redirect("/")
 # Close the database connection
 @app.teardown_appcontext
 def close_connection(exception):

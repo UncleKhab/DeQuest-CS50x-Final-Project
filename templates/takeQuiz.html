@@ -2,6 +2,51 @@
 
 
 {% block main %}
+    
+
+    <div class="my-container">
+        <hr>
+        <h1 class="form-title">{{ quiz[1] }}</h1>
+        <hr>
+        <h2 class="quiz-description">{{ quiz[2] }}</h2>
+        <hr>
+        <div class="quiz-tags">
+            {% for x in tags %}
+                <a href="#" class="quiz-tags-link">{{ x }}</a>
+            {% endfor %}
+        </div>
+        <hr>
+    </div>
     <hr>
-    <h2 class="form-title">{{ quiz[1] }}</h2>
+    <div class="my-container">
+        <div class="my-container">
+            <form name="submitQuiz" action="/submitQuiz" id="submitQuiz" method="post">
+                <div class="form-group">
+                    <select name="quizId" class="form-control" id="quizId" style="display:none">
+                        <option>{{ quiz[0] }}</option>
+                    </select>
+                </div>
+                {% for row in q_list %}
+                    <div class="form-group">
+                        <p class="question">{{ row['question'] }}</p>
+                        <p class="answers">1: {{ row['a0'] }}</p>
+                        <p class="answers">2: {{ row['a1'] }}</p>
+                        <p class="answers">3: {{ row['a2'] }}</p>
+                        <p class="answers">4: {{ row['a3'] }}</p>
+                        <select name="answer" id="answer" class="form-control" id="exampleFormControlSelect1">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
+                        <hr>
+                    </div>
+                {% endfor %}
+                <button id="submitQuestion" type="submit" class="btn btn-primary btn-block"
+                    value="submit">Submit</button>
+            </form>
+        </div>
+        
+    </div>
+
 {% endblock %}

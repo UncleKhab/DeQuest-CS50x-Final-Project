@@ -47,6 +47,10 @@ body
   font-size: 10px;
 }
 
+#quiz-title{
+  color:black;
+}
+
 .custom_link {
       color: #fffcd9;
       text-decoration:none;
@@ -86,6 +90,21 @@ body
 .form-title{
   text-align:center;
   font-weight:600;
+}
+
+.quiz-description{
+  font-size:1.2rem;
+  font-style:italic;
+  text-align:center;
+}
+
+.quiz-tags{
+  font-size:0.8rem;
+  text-align:center;
+}
+
+.question{
+  font-weight:bold;
 }
 
 .button-container{
