@@ -49,11 +49,19 @@ def get_q(user_id, quiz_id):
         q_list.append(q[0])
     return q_list
 
-def get_dict(user_id, quiz_id):
+def get_dict(quiz_id):
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     c = conn.cursor()
     c.execute("SELECT * FROM questions JOIN answers ON answers.question_id = questions.id WHERE questions.quiz_id=? ",[quiz_id])
+    result = c.fetchall()
+    return result
+
+def get_profile(user_id):
+    conn = sqlite3.connect(DATABASE)
+    conn.row_factory = sqlite3.Row
+    c = conn.cursor()
+    c.execute("SELECT * FROM profile JOIN quiz ON profile.quiz_id = quiz.id WHERE profile.user_id = ?", [user_id])
     result = c.fetchall()
     return result
 

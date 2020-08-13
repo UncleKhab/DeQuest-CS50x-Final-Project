@@ -171,8 +171,8 @@ body
     grid-column-gap: 5%;
     grid-template-columns: 45% 45%;
     row-gap: 15px;
- 
 }
+
 
 @media only screen and (min-width: 900px) {
   

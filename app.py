@@ -1,10 +1,10 @@
 import os
-import datetime
+from datetime import date
 import sqlite3 as sql
 # Flask and Helpers
 from flask import g, Flask, request, session, render_template, redirect
 from flask_session import Session
-from helpers import get_db, query_db, add_db, login_required, get_q, get_dict
+from helpers import get_db, query_db, add_db, login_required, get_q, get_dict, get_profile
 from tempfile import mkdtemp
 # Security Related
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
@@ -34,14 +34,22 @@ Session(app)
 # SETUP DATABASE
 DATABASE = 'quiz.db'
 
-#------------------------------------------------------------------------------------------------DEFAULT ROUTE 
+#----------------------------------------------------------------------------------------------------DEFAULT ROUTE 
 @app.route('/')
 @login_required
 def index():
     
     return render_template("index.html")
 
-
+#----------------------------------------------------------------------------------------------------PROFILE ROUTE
+@app.route('/profile')
+@login_required
+def profile():
+    user_id = session["user_id"]
+    user = query_db("SELECT * FROM users WHERE id = ?", [user_id], one=True)
+    p = get_profile(user_id)
+    profile = [dict(row) for row in p]
+    return render_template("profile.html", user=user, profile=profile, x=1)
 
 #----------------------------------------------------------------------------------------------------LOGIN ROUTE
 @app.route("/login", methods=["GET", "POST"])
@@ -141,6 +149,8 @@ def add():
     
     q_list = get_q(user_id, quiz_id)
     return render_template("create.html",q_list=q_list, quiz=quiz, r=2)
+
+
 #----------------------------------------------------------------------------------------------------DELETE QUESTION ROUTE
 @app.route("/delete", methods=["POST"])
 @login_required
@@ -171,7 +181,7 @@ def takeQuiz():
     quiz_id = request.form.get("quizId")
 
     quiz = query_db("SELECT * FROM quiz WHERE id=?",[quiz_id], one=True)
-    questions = get_dict(user_id, quiz_id)
+    questions = get_dict(quiz_id)
     tags = quiz[3].split()
     q_list = [dict(row) for row in questions]
     
@@ -189,7 +199,7 @@ def checkQuiz():
     userAnswers = request.form.getlist("answer")
     
     #GETTING THE ANSWERS TO QUESTIONS
-    questions = get_dict(user_id, quiz_id)
+    questions = get_dict(quiz_id)
     q_list = [dict(row) for row in questions]
     answers = []
     for row in q_list:
@@ -212,11 +222,12 @@ def checkQuiz():
 @login_required
 def addToProfile():
     user_id = session["user_id"]
+    dToday = str(date.today())
     quiz_id = request.form.get("quizId")
     correct = request.form.get("correct")
     answersC = request.form.get("answersC")
-    add_db("INSERT INTO profile(user_id, quiz_id, correct_answers, total_questions) values (?,?,?,?)", (user_id, quiz_id, correct, answersC))
-    return render_template("/profile")
+    add_db("INSERT INTO profile(user_id, quiz_id, correct_answers, total_questions, date) values (?,?,?,?,?)", (user_id, quiz_id, correct, answersC, dToday))
+    return redirect("/profile")
 # Close the database connection
 @app.teardown_appcontext
 def close_connection(exception):
