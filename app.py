@@ -178,15 +178,16 @@ def takeQuiz():
     return render_template("takeQuiz.html", quiz=quiz,tags=tags, questions=questions, q_list=q_list)
 
 #----------------------------------------------------------------------------------------------------SUBMIT QUIZ
-@app.route("/submitQuiz", methods=["POST"])
+@app.route("/checkQuiz", methods=["POST"])
 @login_required
-def submitQuiz():
+def checkQuiz():
     user_id = session["user_id"]
-    quiz_id = request.form.get("quizId")
     
+    quiz_id = request.form.get("quizId")
+    quiz = query_db("SELECT * FROM quiz WHERE id=?",[quiz_id], one=True)
     #GETTING THE USER ANSWERS 
     userAnswers = request.form.getlist("answer")
-    userAnswers = list(map(int, userAnswers))
+    
     #GETTING THE ANSWERS TO QUESTIONS
     questions = get_dict(user_id, quiz_id)
     q_list = [dict(row) for row in questions]
@@ -201,11 +202,21 @@ def submitQuiz():
         if answers[i] == userAnswers[i]:
             count += 1
     
-    print(count)
-    print(answersCount)
-    print(userAnswers)
-    print(answers)
-    return redirect("/")
+    if count >= answersCount / 2:
+        return render_template("checkQuiz.html", r=0, answersCount=answersCount, count=count, quiz=quiz )
+    else:
+        return render_template("checkQuiz.html", r=1, answersCount=answersCount, count=count, quiz=quiz )
+
+#----------------------------------------------------------------------------------------------------ADD TO PROFILE
+@app.route("/addToProfile", methods=["POST"])
+@login_required
+def addToProfile():
+    user_id = session["user_id"]
+    quiz_id = request.form.get("quizId")
+    correct = request.form.get("correct")
+    answersC = request.form.get("answersC")
+    add_db("INSERT INTO profile(user_id, quiz_id, correct_answers, total_questions) values (?,?,?,?)", (user_id, quiz_id, correct, answersC))
+    return render_template("/profile")
 # Close the database connection
 @app.teardown_appcontext
 def close_connection(exception):

@@ -79,7 +79,7 @@ body
   width:100%;
   
 }
-
+/**************************************************************************************************************** TYPOGRAPHY */
 .login-title {
   font-family: Modak;
   font-size:80px;
@@ -107,6 +107,10 @@ body
   font-weight:bold;
 }
 
+.score{
+  font-size:1rem;
+  text-align:center;
+}
 .button-container{
   width:80%;
   margin:auto;

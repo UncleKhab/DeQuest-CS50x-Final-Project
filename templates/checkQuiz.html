@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+
+{% block main %}
+    
+    <div class="my-container">
+        <hr>
+        {% if r == 0 %}
+            <h1 class="form-title pass-message" style="color:green;">
+                GOOD JOB! YOU PASSED
+            </h1>
+        {% else %}
+            <h1 class="form-title pass-message" style="color:red;">
+                OOPS! NOT THERE YET!
+            </h1>
+        {% endif %}
+        <hr>
+        <h2 class="quiz-description">
+            For the Quiz : {{ quiz['title']}}
+        </h2>
+        <hr>
+        <h2 class="score">
+            You got {{ count }} out of {{ answersCount }} correct
+        </h2>
+    </div>
+
+    <hr>
+
+    {% if r == 0 %}
+        <div class="my-container">
+            <form name="addToProfile" action="/addToProfile" method="post">
+                <select name="quizId" class="form-control" id="quizId" style="display:none">
+                    <option>{{ quiz[0] }}</option>
+                </select>
+                <select name="correct" class="form-control" id="correct" style="display:none">
+                    <option>{{ count }}</option>
+                </select>
+                <select name="answersC" class="form-control" id="answersC" style="display:none">
+                    <option>{{ answersCount }}</option>
+                </select>
+
+                <button class="btn btn-primary btn-block" type="submit">Add to Profile</button>
+            </form>
+        </div>
+    {% else %}
+        <div class="my-container">
+            <form name="takeQuiz" action="/takeQuiz" method="post">
+                <select name="quizId" class="form-control" id="quizId" style="display:none">
+                    <option>{{ quiz[0] }}</option>
+                </select>
+                <button class="btn btn-primary btn-block" type="submit">Retry Quiz</button>
+            </form>
+        </div>
+    {% endif %}
+    
+{% endblock %}

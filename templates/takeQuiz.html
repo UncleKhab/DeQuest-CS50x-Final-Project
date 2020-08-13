@@ -20,7 +20,7 @@
     <hr>
     <div class="my-container">
         <div class="my-container">
-            <form name="submitQuiz" action="/submitQuiz" id="submitQuiz" method="post">
+            <form name="checkQuiz" action="/checkQuiz" id="checkQuiz" method="post">
                 <div class="form-group">
                     <select name="quizId" class="form-control" id="quizId" style="display:none">
                         <option>{{ quiz[0] }}</option>
@@ -29,15 +29,15 @@
                 {% for row in q_list %}
                     <div class="form-group">
                         <p class="question">{{ row['question'] }}</p>
-                        <p class="answers">1: {{ row['a0'] }}</p>
-                        <p class="answers">2: {{ row['a1'] }}</p>
-                        <p class="answers">3: {{ row['a2'] }}</p>
-                        <p class="answers">4: {{ row['a3'] }}</p>
+                        <p class="answers">a: {{ row['a0'] }}</p>
+                        <p class="answers">b: {{ row['a1'] }}</p>
+                        <p class="answers">c: {{ row['a2'] }}</p>
+                        <p class="answers">d: {{ row['a3'] }}</p>
                         <select name="answer" id="answer" class="form-control" id="exampleFormControlSelect1">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
+                            <option>a</option>
+                            <option>b</option>
+                            <option>c</option>
+                            <option>d</option>
                         </select>
                         <hr>
                     </div>
