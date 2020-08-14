@@ -114,6 +114,9 @@ def create():
         title = request.form.get("title")
         description = request.form.get("description")
         subjects = request.form.get("subjects")
+        db_check = query_db("SELECT * FROM quiz WHERE title=?",[title], one=True)
+        if db_check != None:
+            return render_template("create.html", r=0, e=0)#-------------------------------------------------------e=0 Quiz Already Exists
         add_db("INSERT INTO quiz(title, description, subjects, user_id) VALUES (?,?,?,?)", (title, description, subjects, user_id))
         quiz = query_db("SELECT * FROM quiz WHERE title=? AND user_id=?",[title, user_id], one=True)
         
@@ -136,8 +139,8 @@ def add():
     a3 = answers[3]
     
     quiz = query_db("SELECT * FROM quiz WHERE title=? AND user_id=?",[quiz_title, user_id], one=True)
-    
     quiz_id = quiz[0]
+
     
     add_db("INSERT INTO questions(user_id, question, correct_answer, difficulty, quiz_id) VALUES(?,?,?,?,?)",
         (user_id, question, checked, difficulty, quiz_id))
