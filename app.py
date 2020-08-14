@@ -137,21 +137,24 @@ def add():
     a1 = answers[1]
     a2 = answers[2]
     a3 = answers[3]
-    
+    #Getting the quiz info
     quiz = query_db("SELECT * FROM quiz WHERE title=? AND user_id=?",[quiz_title, user_id], one=True)
     quiz_id = quiz[0]
-
-    
-    add_db("INSERT INTO questions(user_id, question, correct_answer, difficulty, quiz_id) VALUES(?,?,?,?,?)",
+    #Checking if the question is already in the quiz
+    db_check = query_db("SELECT * FROM questions JOIN quiz ON questions.quiz_id = quiz.id WHERE question=? and quiz.id=?",[question, quiz_id], one=True)
+    if db_check == None:
+        # Adding question and answers to Database
+        add_db("INSERT INTO questions(user_id, question, correct_answer, difficulty, quiz_id) VALUES(?,?,?,?,?)",
         (user_id, question, checked, difficulty, quiz_id))
-    
-    log = query_db("SELECT id FROM questions WHERE question=?", [question], one=True)
-    question_id = log[0]
-    
-    add_db("INSERT INTO answers(question_id, a0, a1, a2, a3) VALUES (?,?,?,?,?)", (question_id, a0, a1, a2, a3))
-    
-    q_list = get_q(user_id, quiz_id)
-    return render_template("create.html",q_list=q_list, quiz=quiz, r=2)
+        log = query_db("SELECT id FROM questions WHERE question=?", [question], one=True)
+        question_id = log[0]
+        add_db("INSERT INTO answers(question_id, a0, a1, a2, a3) VALUES (?,?,?,?,?)", (question_id, a0, a1, a2, a3))
+        q_list = get_q(user_id, quiz_id)
+        return render_template("create.html",q_list=q_list, quiz=quiz, r=2)
+    else:
+        q_list = get_q(user_id, quiz_id)
+        return render_template("create.html",q_list=q_list, quiz=quiz, r=2, e=1)#-------------Question Already in the quiz
+
 
 
 #----------------------------------------------------------------------------------------------------DELETE QUESTION ROUTE
