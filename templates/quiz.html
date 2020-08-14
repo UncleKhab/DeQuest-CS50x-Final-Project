@@ -2,12 +2,24 @@
 
 
 {% block main %}
+    <div class="search-container">
+        <form name="search-form" id="search-form" action="/search" class="form-inline search-form">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    
+    </div>
     <div class="my-container">
+        <h2 class="form-title">Quiz List</h2>
+        <hr class="hr-form">
         <div class="grid-container ">
             {% for quiz in quizList %}
                 <div class="card text-center" style="max-width: 18rem;">
 
-                    <div id="quiz-title" class="card-header">{{ quiz[1] }}</div>
+                    <div id="quiz-title" class="card-header">
+                        {{ quiz[1] }}
+                    </div>
+                    <span class="badge badge-info"> Times Taken: {{ quiz[5] }}</span>
                     <div class="card-body text-dark">
                         <p class="card-text">{{ quiz[2] }}</p>
                         <p class="card-text"><small class="text-muted">{{ quiz[3] }}</small></p>

@@ -8,16 +8,8 @@
         <hr>
         <h1 class="form-title">{{ quiz[1] }}</h1>
         <hr>
-        <h2 class="quiz-description">{{ quiz[2] }}</h2>
-        <hr>
-        <div class="quiz-tags">
-            {% for x in tags %}
-                <a href="#" class="quiz-tags-link">{{ x }}</a>
-            {% endfor %}
-        </div>
-        <hr>
     </div>
-    <hr>
+    
     <div class="my-container">
         <div class="my-container">
             <form name="checkQuiz" action="/checkQuiz" id="checkQuiz" method="post">
@@ -28,18 +20,19 @@
                 </div>
                 {% for row in q_list %}
                     <div class="form-group">
-                        <p class="question">{{ row['question'] }}</p>
+                        <p class="question">Question: {{ row['question'] }}</p>
                         <p class="answers">a: {{ row['a0'] }}</p>
                         <p class="answers">b: {{ row['a1'] }}</p>
                         <p class="answers">c: {{ row['a2'] }}</p>
                         <p class="answers">d: {{ row['a3'] }}</p>
                         <select name="answer" id="answer" class="form-control" id="exampleFormControlSelect1">
+                            <option value="Select Answer">Select Answer</option>
                             <option>a</option>
                             <option>b</option>
                             <option>c</option>
                             <option>d</option>
                         </select>
-                        <hr>
+                        <hr class="hr-form">
                     </div>
                 {% endfor %}
                 <button id="submitQuestion" type="submit" class="btn btn-primary btn-block"

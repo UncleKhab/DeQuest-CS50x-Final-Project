@@ -115,11 +115,14 @@ def create():
         description = request.form.get("description")
         subjects = request.form.get("subjects")
         db_check = query_db("SELECT * FROM quiz WHERE title=?",[title], one=True)
+        #CHECKING IF THE QUIZ NAME IS AVAILABLE!
         if db_check != None:
             return render_template("create.html", r=0, e=0)#-------------------------------------------------------e=0 Quiz Already Exists
-        add_db("INSERT INTO quiz(title, description, subjects, user_id) VALUES (?,?,?,?)", (title, description, subjects, user_id))
-        quiz = query_db("SELECT * FROM quiz WHERE title=? AND user_id=?",[title, user_id], one=True)
+        #UPDATING THE DATABASE WITH QUIZ INFO
+        times_taken = 0
+        add_db("INSERT INTO quiz(title, description, subjects, user_id, times_taken) VALUES (?,?,?,?,?)", (title, description, subjects, user_id, times_taken))
         
+        quiz = query_db("SELECT * FROM quiz WHERE title=? AND user_id=?",[title, user_id], one=True)
         return render_template("create.html", quiz=quiz, r=1)
 
 #----------------------------------------------------------------------------------------------------ADD QUESTIONS ROUTE
@@ -171,15 +174,22 @@ def delete():
     q_list = get_q(user_id, quiz_id)
     return render_template("create.html",q_list=q_list, quiz=quiz, r=2)
 
-#----------------------------------------------------------------------------------------------------SHOW ALL QUIZZEZ
+#----------------------------------------------------------------------------------------------------DISPLAY ALL ROUTE
 @app.route("/quiz")
 @login_required
 def quiz():
     user_id = session["user_id"]
-    quizList = query_db("SELECT * FROM quiz")
+    quizList = query_db("SELECT * FROM quiz ORDER BY times_taken DESC")
     return render_template("quiz.html", quizList=quizList)
 
-#----------------------------------------------------------------------------------------------------TAKE QUIZ
+#----------------------------------------------------------------------------------------------------SEARCH ROUTE
+@app.route("/search")
+@login_required
+def search():
+    title = request.form.get("search-form")
+    quizList = query_db("SELECT * FROM quiz WHERE title=?", [title])
+    return render_template("quiz.html", quizList=quizList)
+#----------------------------------------------------------------------------------------------------TAKE/LOAD QUIZ ROUTE
 @app.route("/takeQuiz", methods=["POST"])
 @login_required
 def takeQuiz():
@@ -193,14 +203,16 @@ def takeQuiz():
     
     return render_template("takeQuiz.html", quiz=quiz,tags=tags, questions=questions, q_list=q_list)
 
-#----------------------------------------------------------------------------------------------------SUBMIT QUIZ
+#----------------------------------------------------------------------------------------------------CHECK QUIZ ROUTE
 @app.route("/checkQuiz", methods=["POST"])
 @login_required
 def checkQuiz():
+    #GETTING INFO
     user_id = session["user_id"]
-    
     quiz_id = request.form.get("quizId")
     quiz = query_db("SELECT * FROM quiz WHERE id=?",[quiz_id], one=True)
+
+
     #GETTING THE USER ANSWERS 
     userAnswers = request.form.getlist("answer")
     
@@ -211,6 +223,7 @@ def checkQuiz():
     for row in q_list:
         answers.append(row['correct_answer'])
     
+    
     #COUNTING THE CORRECT ANSWERS
     answersCount = len(answers)
     count = 0
@@ -218,8 +231,15 @@ def checkQuiz():
         if answers[i] == userAnswers[i]:
             count += 1
     
+    #UPDATING THE TIMES THE QUIZ WAS TAKEN
+    times_taken = quiz[5] + 1
+    add_db("UPDATE quiz SET times_taken=? WHERE id=?",(times_taken, quiz_id))
+    
+    #SENDING BACK RESULT 
+    #PASSED
     if count >= answersCount / 2:
         return render_template("checkQuiz.html", r=0, answersCount=answersCount, count=count, quiz=quiz )
+    #FAILED
     else:
         return render_template("checkQuiz.html", r=1, answersCount=answersCount, count=count, quiz=quiz )
 

@@ -2,7 +2,7 @@
 
 
 {% block main %}
-    <hr>
+    
     {% if r == 0 %}
         <div id="displayAlert" class="custom-alert alert alert-danger" style="display:none"></div>
         <h2 class="form-title">Create a Quiz</h2>
@@ -26,16 +26,16 @@
             </form>
         
         </div>
-        <hr>
+        
     {% elif r > 0 %}
-        <hr>
+        
         <div class="my-container">
             <h2 name="title" class="form-title">Title: {{ quiz['title'] }}</h2>
-            <hr>
+            <hr class="hr-form">
             <p class="quiz-description"><strong>Description:</strong> {{ quiz['description'] }}</p>
-            <hr>
+            <hr class="hr-form">
             <em class="quiz-subjects"><strong>Categories:</strong> {{ quiz['subjects'] }}</em>
-            <hr>
+            <hr class="hr-form">
         </div>
         <div class="button-container">
             <div class="button-row">
@@ -51,7 +51,7 @@
                             <div class="form-group">
                                 <textarea name="question" class="form-control" id="questionArea" rows="3" onKeyUp="checkform('questionForm','submitQuestion')"></textarea>
                             </div>
-                            <hr>
+                            <hr class="hr-form">
                             <h2>Answers</h2>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">

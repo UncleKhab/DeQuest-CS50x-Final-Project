@@ -1,3 +1,5 @@
+/************************ CONTAINERS ******************/
+
 *{
   box-sizing: border-box;
   margin:0;
@@ -10,12 +12,40 @@ body
   color: #fffcd9;
 }
 
+.button-container{
+  width:80%;
+  margin:auto;
+  display:flex;
+  flex-direction:column;
+}
+
+.my-container
+{
+  width: 80%;
+  margin:auto;
+  margin-top:20px;
+}
+
+.grid-container 
+{
+    display:grid;
+    grid-column-gap: 5%;
+    grid-template-columns: 45% 45%;
+    row-gap: 15px;
+}
+
 .hr-form
 {
     margin: 30px;
     border-top: 1px solid #a1a1a1;
-    
 }
+
+.search-container
+{
+  
+}
+/************ UNIQUE PROPERTIES **************/
+
 #brand
 {
   font-family:Modak;
@@ -51,6 +81,7 @@ body
   color:black;
 }
 
+/********** BOOTSTRAP OVERWRITERS *****************/
 .custom_link {
       color: #fffcd9;
       text-decoration:none;
@@ -79,7 +110,8 @@ body
   width:100%;
   
 }
-/**************************************************************************************************************** TYPOGRAPHY */
+
+/******************* TYPOGRAPHY ******************/
 .login-title {
   font-family: Modak;
   font-size:80px;
@@ -109,12 +141,7 @@ body
   font-size:1rem;
   text-align:center;
 }
-.button-container{
-  width:80%;
-  margin:auto;
-  display:flex;
-  flex-direction:column;
-}
+
 .button-row
 {
   flex:1;
@@ -155,20 +182,10 @@ body
   margin: 20px 0;
 }
 
-.my-container
-{
-  width: 80%;
-  margin:auto;
-  margin-top:20px;
-}
 
-.grid-container 
-{
-    display:grid;
-    grid-column-gap: 5%;
-    grid-template-columns: 45% 45%;
-    row-gap: 15px;
-}
+
+
+
 
 
 @media only screen and (min-width: 900px) {
