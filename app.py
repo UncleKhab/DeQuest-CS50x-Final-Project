@@ -182,13 +182,7 @@ def quiz():
     quizList = query_db("SELECT * FROM quiz ORDER BY times_taken DESC")
     return render_template("quiz.html", quizList=quizList)
 
-#----------------------------------------------------------------------------------------------------SEARCH ROUTE
-@app.route("/search")
-@login_required
-def search():
-    title = request.form.get("search-form")
-    quizList = query_db("SELECT * FROM quiz WHERE title=?", [title])
-    return render_template("quiz.html", quizList=quizList)
+
 #----------------------------------------------------------------------------------------------------TAKE/LOAD QUIZ ROUTE
 @app.route("/takeQuiz", methods=["POST"])
 @login_required
