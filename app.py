@@ -92,8 +92,9 @@ def register():
         return render_template("login.html", r=3)#----------------------------------------------------------------r=3 Email already in use
     if password != confirmation:
         return render_template("login.html", r=4)#----------------------------------------------------------------r=4 Passwords don't match
-
-    add_db("INSERT INTO users(username, hash, email) VALUES(?, ?, ?)", (username, hashed, email))
+    created = 0 
+    taken = 0
+    add_db("INSERT INTO users(username, hash, email, taken, created) VALUES(?, ?, ?, ?, ?)", (username, hashed, email, taken, created))
                  
     log = query_db("SELECT * FROM users WHERE username=?", [username], one=True)
     session["user_id"] = log[0]
@@ -122,8 +123,11 @@ def create():
             return render_template("create.html", r=0, e=0)#-------------------------------------------------------e=0 Quiz Already Exists
         #UPDATING THE DATABASE WITH QUIZ INFO
         times_taken = 0
+        c = query_db("SELECT * FROM users WHERE id=?", [user_id], one=True)
+        created = str(c[5] + 1)
         add_db("INSERT INTO quiz(title, description, subjects, user_id, times_taken,difficulty) VALUES (?,?,?,?,?,?)", (title, description, subjects, user_id, times_taken,difficulty))
         
+        add_db("UPDATE users SET created = ?",(created))
         quiz = query_db("SELECT * FROM quiz WHERE title=? AND user_id=?",[title, user_id], one=True)
         return render_template("create.html", quiz=quiz, r=1)
 #----------------------------------------------------------------------------------------------------REMOVE QUIZ ROUTE
@@ -257,6 +261,9 @@ def addToProfile():
     quiz_id = request.form.get("quizId")
     correct = request.form.get("correct")
     answersC = request.form.get("answersC")
+    t = query_db("SELECT * FROM users WHERE id=?", [user_id], one=True)
+    taken = str(t[4] + 1)
+    add_db("UPDATE users SET taken = ?",(taken))
     add_db("INSERT INTO profile(user_id, quiz_id, correct_answers, total_questions, date) values (?,?,?,?,?)", (user_id, quiz_id, correct, answersC, dToday))
     return redirect("/profile")
 # Close the database connection
