@@ -57,12 +57,13 @@ def get_dict(quiz_id):
     result = c.fetchall()
     return result
 
-def get_profile(user_id):
+def get_profile_dict(query, user_id):
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     c = conn.cursor()
-    c.execute("SELECT * FROM profile JOIN quiz ON profile.quiz_id = quiz.id WHERE profile.user_id = ?", [user_id])
-    result = c.fetchall()
+    c.execute(query, [user_id])
+    q = c.fetchall()
+    result = [dict(row) for row in q]
     return result
 
 

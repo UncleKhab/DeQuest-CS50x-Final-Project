@@ -4,7 +4,7 @@ import sqlite3 as sql
 # Flask and Helpers
 from flask import g, Flask, request, session, render_template, redirect
 from flask_session import Session
-from helpers import get_db, query_db, add_db, login_required, get_q, get_dict, get_profile
+from helpers import get_db, query_db, add_db, login_required, get_q, get_dict, get_profile_dict
 from tempfile import mkdtemp
 # Security Related
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
@@ -47,9 +47,10 @@ def index():
 def profile():
     user_id = session["user_id"]
     user = query_db("SELECT * FROM users WHERE id = ?", [user_id], one=True)
-    p = get_profile(user_id)
-    profile = [dict(row) for row in p]
-    return render_template("profile.html", user=user, profile=profile, x=1)
+    made_by_user = get_profile_dict("SELECT * FROM quiz WHERE user_id=?", user_id)
+    profile = get_profile_dict("SELECT * FROM profile JOIN quiz ON profile.quiz_id = quiz.id WHERE profile.user_id = ?", user_id)
+    
+    return render_template("profile.html", user=user, profile=profile, made_by_user=made_by_user, x=1)
 
 #----------------------------------------------------------------------------------------------------LOGIN ROUTE
 @app.route("/login", methods=["GET", "POST"])
@@ -114,17 +115,28 @@ def create():
         title = request.form.get("title")
         description = request.form.get("description")
         subjects = request.form.get("subjects")
+        difficulty = request.form.get("difficulty")
         db_check = query_db("SELECT * FROM quiz WHERE title=?",[title], one=True)
         #CHECKING IF THE QUIZ NAME IS AVAILABLE!
         if db_check != None:
             return render_template("create.html", r=0, e=0)#-------------------------------------------------------e=0 Quiz Already Exists
         #UPDATING THE DATABASE WITH QUIZ INFO
         times_taken = 0
-        add_db("INSERT INTO quiz(title, description, subjects, user_id, times_taken) VALUES (?,?,?,?,?)", (title, description, subjects, user_id, times_taken))
+        add_db("INSERT INTO quiz(title, description, subjects, user_id, times_taken,difficulty) VALUES (?,?,?,?,?,?)", (title, description, subjects, user_id, times_taken,difficulty))
         
         quiz = query_db("SELECT * FROM quiz WHERE title=? AND user_id=?",[title, user_id], one=True)
         return render_template("create.html", quiz=quiz, r=1)
+#----------------------------------------------------------------------------------------------------REMOVE QUIZ ROUTE
 
+@app.route("/deleteQuiz", methods=["POST"])
+@login_required
+def deleteQuiz():
+    quiz_id = request.form.get("delQuiz")
+
+    add_db("DELETE FROM answers WHERE quiz_id=?",(quiz_id))
+    add_db("DELETE FROM questions WHERE quiz_id=?",(quiz_id))
+    add_db("DELETE FROM quiz WHERE id=?",(quiz_id))
+    return redirect("/profile")
 #----------------------------------------------------------------------------------------------------ADD QUESTIONS ROUTE
 
 @app.route("/add", methods=["POST"])
@@ -134,7 +146,6 @@ def add():
     question = request.form.get("question")
     checked = request.form.get("check") 
     answers = request.form.getlist("answer")
-    difficulty = request.form.get("difficulty")
     quiz_title = request.form.get("qTitle")
     a0 = answers[0]
     a1 = answers[1]
@@ -147,11 +158,11 @@ def add():
     db_check = query_db("SELECT * FROM questions JOIN quiz ON questions.quiz_id = quiz.id WHERE question=? and quiz.id=?",[question, quiz_id], one=True)
     if db_check == None:
         # Adding question and answers to Database
-        add_db("INSERT INTO questions(user_id, question, correct_answer, difficulty, quiz_id) VALUES(?,?,?,?,?)",
-        (user_id, question, checked, difficulty, quiz_id))
+        add_db("INSERT INTO questions(user_id, question, correct_answer, quiz_id) VALUES(?,?,?,?)",
+        (user_id, question, checked, quiz_id))
         log = query_db("SELECT id FROM questions WHERE question=?", [question], one=True)
         question_id = log[0]
-        add_db("INSERT INTO answers(question_id, a0, a1, a2, a3) VALUES (?,?,?,?,?)", (question_id, a0, a1, a2, a3))
+        add_db("INSERT INTO answers(question_id, a0, a1, a2, a3, quiz_id) VALUES (?,?,?,?,?,?)", (question_id, a0, a1, a2, a3, quiz_id))
         q_list = get_q(user_id, quiz_id)
         return render_template("create.html",q_list=q_list, quiz=quiz, r=2)
     else:

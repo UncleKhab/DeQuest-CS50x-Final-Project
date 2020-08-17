@@ -22,6 +22,16 @@
                     <input name="subjects" type="text" class="form-control" id="quizSubjects"
                         placeholder="CS50 ComputerScience DataStructures ..." onKeyUp="checkform('createQuiz','quizSubmit')">
                 </div>
+                <div class="form-group">
+                    <label for="difficulty">Difficulty</label>
+                    <select name="difficulty" class="form-control" id="difficulty">
+                        <option>Novice</option>
+                        <option>Beginner</option>
+                        <option>Competent</option>
+                        <option>Proeficient</option>
+                        <option>Expert</option>
+                    </select>
+                </div>
                 <button id="quizSubmit" type="submit" class="btn btn-primary btn-block" disabled="disabled" value="submit">Create</button>
             </form>
         
@@ -32,10 +42,7 @@
         <div class="my-container">
             <h2 name="title" class="form-title">Title: {{ quiz['title'] }}</h2>
             <hr class="hr-form">
-            <p class="quiz-description"><strong>Description:</strong> {{ quiz['description'] }}</p>
-            <hr class="hr-form">
-            <em class="quiz-subjects"><strong>Categories:</strong> {{ quiz['subjects'] }}</em>
-            <hr class="hr-form">
+            
         </div>
         <div class="button-container">
             <div class="button-row">
@@ -94,16 +101,7 @@
                                     aria-label="Text input with checkbox" onKeyUp="checkform('questionForm','submitQuestion')">
                             </div>
 
-                            <div class="form-group">
-                                <label for="difficulty">Difficulty</label>
-                                <select name="difficulty" class="form-control" id="difficulty">
-                                    <option>Novice</option>
-                                    <option>Beginner</option>
-                                    <option>Competent</option>
-                                    <option>Proeficient</option>
-                                    <option>Expert</option>
-                                </select>
-                            </div>
+                            
                             <div class="form-group" style="display:none">
                                 <label for="qTitle">Quiz Name</label>
                                 <select name="qTitle" class="form-control" id="qTitle">

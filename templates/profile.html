@@ -7,30 +7,83 @@
             <h1 class="form-title">
                 Hey There, {{ user[1] }} !
             </h1>
-            <hr>
-            <h2 class="user-message">
-                Here are all the quizes you completed so far:
-            </h2>
-            <hr>
-            <table class="table table-dark">
-                <thead>
-                  <tr>
-                    
-                    <th scope="col">Quiz Name</th>
-                    <th scope="col">Score</th>
-                    <th scope="col">Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for row in profile %}
-                        <tr>
-                            
-                            <td>{{ row['title'] }}</td>
-                            <td>{{ row['correct_answers'] }} / {{ row['total_questions'] }}</td>
-                            <td>{{ row['date'] }}</td>
-                        </tr>
-                    {% endfor %}    
-                </tbody>
-              </table>
+            <hr>   
+        </div>
+        <div class="button-container">
+            <div class="button-row">
+                <button class="custom-btn btn btn-outline-warning btn-lg " type="button" data-toggle="collapse"
+                    data-target="#collapseCreated" aria-expanded="false" aria-controls="collapseCreated">
+                    Show Your Quizes
+                </button>
+                <div class="collapse" id="collapseCreated">
+                    <div class="container custom-containter">
+                        <table class="table table-dark">
+                            <thead>
+                              <tr>
+                                <th scope="col">Quiz Name</th>
+                                <th scope="col">Subject</th>
+                                <th scope="col">Difficulty</th>
+                                <th scope="col">Remove</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in made_by_user %}
+                                    <tr>
+                                        <td>{{ row['title'] }}</td>
+                                        <td>{{ row['subjects'] }}</td>
+                                        <td>{{ row['difficulty'] }}</td>
+                                        <td>
+                                            <form action="/deleteQuiz" class="question-item" method="post">
+                                                <div class="input-group mb-3">
+                                                    <select name="delQuiz" class="form-control" id="delQuiz" style="display:none">
+                                                        <option>{{ row['id'] }}</option>
+                                                    </select>
+                                                    <div class="input-group-append" id="button-addon3">
+                                                        <button class="btn btn-outline-secondary" type="submit">Remove</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}    
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-container">
+            <div class="button-row">
+                <button class="custom-btn btn btn-outline-warning btn-lg " type="button" data-toggle="collapse"
+                    data-target="#collapsePassed" aria-expanded="false" aria-controls="collapsePassed">
+                    Show Completed Quizes
+                </button>
+                <div class="collapse" id="collapsePassed">
+                    <div class="container custom-containter">
+                        <table class="table table-dark">
+                            <thead>
+                              <tr>
+                                
+                                <th scope="col">Quiz Name</th>
+                                <th scope="col">Score</th>
+                                <th scope="col">Date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in profile %}
+                                    <tr>
+                                        
+                                        <td>{{ row['title'] }}</td>
+                                        <td>{{ row['correct_answers'] }} / {{ row['total_questions'] }}</td>
+                                        <td>{{ row['date'] }}</td>
+                                    </tr>
+                                {% endfor %}    
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                </div>
+            </div>
         </div>
 {% endblock %}
