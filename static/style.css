@@ -40,6 +40,15 @@ body
     border-top: 1px solid #a1a1a1;
 }
 
+.hero
+{
+  width:100%;
+  background-color: #6c757d;
+  height:70vh;
+  position:relative;
+
+}
+
 
 /************ UNIQUE PROPERTIES **************/
 
@@ -113,7 +122,7 @@ body
     text-align: center;
     font-family: Modak;
     color: white;
-    font-size: 200px;
+    font-size:100px;
     padding-top: 100px;
     text-shadow: 0px 2px 20px #4dcbffab;
 }
@@ -152,17 +161,12 @@ body
   flex:1;
 }
 
-.hero
-{
-  width:100%;
-  background-color: #6c757d;
-  height:60vh;
-  position:relative;
 
-}
 .hero-description {
     text-align: center;
     color: white;
+    font-size:25px;
+    padding-top:50px;
 }
 
 .features {
@@ -180,13 +184,21 @@ body
   .button-container{
     flex-direction:row;
   }
-  
+  .hero{
+    height:60vh;
+  }
   .button-row{
     margin:10px 10px;
   }
   .grid-container
   {
     grid-template-columns: 28% 28% 28%;
+  }
+  .big-brand{
+    font-size: 200px;
+  }
+  .hero-description {
+    font-size:50px;
   }
 }
 
@@ -198,5 +210,8 @@ body
   .grid-container
   {
     grid-template-columns: 20% 20% 20% 20%;
+  }
+  .big-brand{
+    font-size: 200px;
   }
 }
