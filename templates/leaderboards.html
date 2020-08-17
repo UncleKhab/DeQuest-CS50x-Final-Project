@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+
+
+{% block main %}
+        <hr>
+        <div class="my-container">
+            <h1 class="form-title">
+                LEADERBOARDS
+            </h1>
+            <hr>   
+        </div>
+        <div class="button-container">
+            <div class="button-row">
+                <button class="custom-btn btn btn-outline-warning btn-lg " type="button" data-toggle="collapse"
+                    data-target="#collapseCreated" aria-expanded="false" aria-controls="collapseCreated">
+                    Quiz Takers
+                </button>
+                <div class="collapse" id="collapseCreated">
+                    <div class="container custom-containter">
+                        <table class="table table-dark">
+                            <thead>
+                              <tr>
+                                <th scope="col">User</th>
+                                <th scope="col">Completed</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in user_t %}
+                                    <tr>
+                                        <td>{{ row['username'] }}</td>
+                                        <td>{{ row['taken'] }}</td>
+                                    </tr>
+                                {% endfor %}    
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="button-container">
+            <div class="button-row">
+                <button class="custom-btn btn btn-outline-warning btn-lg " type="button" data-toggle="collapse"
+                    data-target="#collapsePassed" aria-expanded="false" aria-controls="collapsePassed">
+                    Quiz Makers
+                </button>
+                <div class="collapse" id="collapsePassed">
+                    <div class="container custom-containter">
+                        <table class="table table-dark">
+                            <thead>
+                            <tr>
+                                <th scope="col">User</th>
+                                <th scope="col">Created</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in user_c %}
+                                    <tr>
+                                        
+                                        <td>{{ row['username'] }}</td>
+                                        <td>{{ row['created'] }}</td>
+                                        
+                                    </tr>
+                                {% endfor %}    
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

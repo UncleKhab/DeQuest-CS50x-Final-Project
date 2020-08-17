@@ -40,10 +40,7 @@ body
     border-top: 1px solid #a1a1a1;
 }
 
-.search-container
-{
-  
-}
+
 /************ UNIQUE PROPERTIES **************/
 
 #brand
@@ -112,6 +109,14 @@ body
 }
 
 /******************* TYPOGRAPHY ******************/
+.big-brand {
+    text-align: center;
+    font-family: Modak;
+    color: white;
+    font-size: 200px;
+    padding-top: 100px;
+    text-shadow: 0px 2px 20px #4dcbffab;
+}
 .login-title {
   font-family: Modak;
   font-size:80px;
@@ -150,32 +155,14 @@ body
 .hero
 {
   width:100%;
-  background-image:url("/images/hero.png");
-  background-size:cover;
-  background-repeat:no-repeat;
+  background-color: #6c757d;
   height:60vh;
   position:relative;
 
 }
-
-.hero-title
-{
-  color: #6f4141;
-  font-weight: bold;
-  text-align: center;
-  position: absolute;
-  bottom: 25%;
-  width: 65%;
-  right: 48px;
-}
-
 .hero-description {
-  font-size: 17px;
-  width: 65%;
-  position: absolute;
-  bottom: 17%;
-  right: 18px;
-  color:#343a3fa1;
+    text-align: center;
+    color: white;
 }
 
 .features {

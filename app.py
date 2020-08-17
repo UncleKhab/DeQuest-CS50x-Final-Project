@@ -130,6 +130,15 @@ def create():
         add_db("UPDATE users SET created = ?",(created))
         quiz = query_db("SELECT * FROM quiz WHERE title=? AND user_id=?",[title, user_id], one=True)
         return render_template("create.html", quiz=quiz, r=1)
+
+#----------------------------------------------------------------------------------------------------LEADERBOARD ROUTE
+
+@app.route("/leaderboards")
+@login_required
+def leaderboards():
+    user_t = query_db("SELECT * FROM users ORDER BY taken DESC")
+    user_c = query_db("SELECT * FROM users ORDER BY created DESC")
+    return render_template("leaderboards.html", user_t=user_t, user_c=user_c)
 #----------------------------------------------------------------------------------------------------REMOVE QUIZ ROUTE
 
 @app.route("/deleteQuiz", methods=["POST"])
