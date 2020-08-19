@@ -127,7 +127,7 @@ def create():
         created = str(c[5] + 1)
         add_db("INSERT INTO quiz(title, description, subjects, user_id, times_taken,difficulty) VALUES (?,?,?,?,?,?)", (title, description, subjects, user_id, times_taken,difficulty))
         
-        add_db("UPDATE users SET created = ?",(created))
+        add_db("UPDATE users SET created = ? where id=?",(created, user_id))
         quiz = query_db("SELECT * FROM quiz WHERE title=? AND user_id=?",[title, user_id], one=True)
         return render_template("create.html", quiz=quiz, r=1)
 
@@ -272,7 +272,7 @@ def addToProfile():
     answersC = request.form.get("answersC")
     t = query_db("SELECT * FROM users WHERE id=?", [user_id], one=True)
     taken = str(t[4] + 1)
-    add_db("UPDATE users SET taken = ?",(taken))
+    add_db("UPDATE users SET taken = ? WHERE id=?",(taken, user_id))
     add_db("INSERT INTO profile(user_id, quiz_id, correct_answers, total_questions, date) values (?,?,?,?,?)", (user_id, quiz_id, correct, answersC, dToday))
     return redirect("/profile")
 # Close the database connection
